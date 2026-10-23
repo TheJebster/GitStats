@@ -132,6 +132,8 @@ Returns whether a token is configured and the remaining core/search quota.
 - Results are cached in memory for **10 minutes** (top repositories: 15 minutes), and concurrent identical requests are deduplicated.
 - Commit and pull-request endpoints return at most 100 items. The UI marks those values as `100+` / "latest 100 sampled" rather than pretending the number is exact.
 - Open issue counts come from the Search API so pull requests are not included (GitHub's `open_issues_count` counts PRs too).
+- Renamed repositories (e.g. `facebook/react` → `react/react`) are resolved through GitHub's redirect and scored under their canonical name, since the Search API does not follow redirects.
+- Repositories with issues disabled (or that cannot be searched) get neutral issue credit instead of a failed page.
 - Issue and PR counts are counts **at the time of the request** and cached with everything else.
 
 If GitHub's quota is exhausted, the app shows a clear error with the reset time instead of a blank page.

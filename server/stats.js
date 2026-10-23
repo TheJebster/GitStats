@@ -151,26 +151,63 @@ function normalizeRepo(repo, fallbackOwner, fallbackName) {
   };
 }
 
+/**
+ * The Search API returns 422 for repositories that cannot be searched
+ * (renamed before we resolved the canonical name, or issues disabled).
+ * That is "no issue data", not an error worth failing the page for.
+ */
+async function searchIssuesSafe(query, options) {
+  try {
+    return await searchIssues(query, options);
+  } catch (error) {
+    if (error.upstreamStatus === 422) return null;
+    throw error;
+  }
+}
+
+const NO_ISSUE_DATA = {
+  open: 0,
+  closed: 0,
+  total: 0,
+  closedPercent: null,
+  medianCloseDays: null,
+  sampled: 0
+};
+
 export function getRepoStats(owner, repo) {
   const cacheKey = `repo:${owner}/${repo}`.toLowerCase();
 
   return withCache(cacheKey, REPO_TTL_MS, async () => {
+    // The repo is fetched first because GitHub redirects renamed repositories
+    // (e.g. facebook/react -> react/react). The Search API does not follow
+    // redirects, so issue searches must use the canonical name.
+    const repoData = await getRepo(owner, repo);
+
+    const canonicalOwner = repoData?.owner?.login || owner;
+    const canonicalName = repoData?.name || repo;
+    const canonicalFullName = `${canonicalOwner}/${canonicalName}`;
+    const issuesEnabled = repoData?.has_issues !== false;
     const since = startOfUtcDay(Date.now() - 29 * DAY);
 
-    const [repoData, commits, pulls, languages, openIssues, closedIssues] = await Promise.all([
-      getRepo(owner, repo),
-      getCommits(owner, repo, since.toISOString()),
-      getClosedPulls(owner, repo),
-      getLanguages(owner, repo),
-      searchIssues(`repo:${owner}/${repo} type:issue state:open`, { perPage: 1 }),
-      searchIssues(`repo:${owner}/${repo} type:issue state:closed`, { perPage: 100 })
+    const [commits, pulls, languages, openIssues, closedIssues] = await Promise.all([
+      getCommits(canonicalOwner, canonicalName, since.toISOString()),
+      getClosedPulls(canonicalOwner, canonicalName),
+      getLanguages(canonicalOwner, canonicalName),
+      issuesEnabled
+        ? searchIssuesSafe(`repo:${canonicalFullName} type:issue state:open`, { perPage: 1 })
+        : Promise.resolve(null),
+      issuesEnabled
+        ? searchIssuesSafe(`repo:${canonicalFullName} type:issue state:closed`, { perPage: 100 })
+        : Promise.resolve(null)
     ]);
 
     const commitList = Array.isArray(commits) ? commits : [];
     const pullList = Array.isArray(pulls) ? pulls : [];
 
     const activity = buildCommitVelocity(commitList, since);
-    const issues = buildIssues(openIssues, closedIssues);
+    const issues = openIssues && closedIssues
+      ? buildIssues(openIssues, closedIssues)
+      : NO_ISSUE_DATA;
     const pullRequests = buildPullRequests(pullList);
 
     const health = calculateHealth({
@@ -184,7 +221,7 @@ export function getRepoStats(owner, repo) {
     });
 
     return {
-      repo: normalizeRepo(repoData, owner, repo),
+      repo: normalizeRepo(repoData, canonicalOwner, canonicalName),
       health,
       activity,
       issues,

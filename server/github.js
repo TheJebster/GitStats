@@ -144,6 +144,15 @@ export async function githubFetch(path, params = {}) {
       });
     }
 
+    if (response.status === 422) {
+      throw new GithubError('GitHub could not search this repository. It may have been renamed, deleted, or have issues disabled.', {
+        status: 502,
+        code: 'GITHUB_UNSEARCHABLE',
+        rateLimit,
+        upstreamStatus: response.status
+      });
+    }
+
     throw new GithubError(apiMessage, {
       status: 502,
       code: 'GITHUB_ERROR',
