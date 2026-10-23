@@ -60,44 +60,19 @@ export function timeAgo(iso) {
   return 'just now';
 }
 
-const LANGUAGE_COLORS = {
-  JavaScript: '#f1e05a',
-  TypeScript: '#3178c6',
-  Python: '#3572A5',
-  Go: '#00ADD8',
-  Rust: '#dea584',
-  Java: '#b07219',
-  'C++': '#f34b7d',
-  C: '#555555',
-  'C#': '#178600',
-  Ruby: '#701516',
-  PHP: '#4F5D95',
-  Shell: '#89e051',
-  HTML: '#e34c26',
-  CSS: '#563d7c',
-  SCSS: '#c6538c',
-  Vue: '#41b883',
-  Svelte: '#ff3e00',
-  Kotlin: '#A97BFF',
-  Swift: '#F05138',
-  Dart: '#00B4AB',
-  Haskell: '#5e5086',
-  Lua: '#000080',
-  Elixir: '#6e4a7e',
-  'Jupyter Notebook': '#DA5B0B',
-  Other: '#6e7681'
-};
+const LANGUAGE_TONES = [
+  '#eeeeee', // bone
+  '#b8b3b0', // pale stone
+  '#8a8380', // warm granite
+  '#4d4947', // graphite
+  '#3d3a39', // ash
+  '#1d1a18' // carbon
+];
 
-const FALLBACK_COLORS = ['#58a6ff', '#bc8cff', '#3fb950', '#d29922', '#f778ba', '#39c5cf'];
-
-export function languageColor(language) {
-  if (!language) return '#6e7681';
-  if (LANGUAGE_COLORS[language]) return LANGUAGE_COLORS[language];
-
-  let hash = 0;
-  for (let index = 0; index < language.length; index += 1) {
-    hash = language.charCodeAt(index) + ((hash << 5) - hash);
-  }
-
-  return FALLBACK_COLORS[Math.abs(hash) % FALLBACK_COLORS.length];
+/**
+ * Neutral ramp for language data — the Factory palette keeps chromatic
+ * color for status, so code composition is rendered as a grayscale stack.
+ */
+export function languageTone(index = 0) {
+  return LANGUAGE_TONES[Math.max(0, index) % LANGUAGE_TONES.length];
 }

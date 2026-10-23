@@ -5,7 +5,7 @@ export default function IssueDonut({ issues }) {
   const closedPercent = total > 0 ? ((issues.closed / total) * 100) : 0;
   const displayPercent = issues?.closedPercent;
   const gradient = total > 0
-    ? `conic-gradient(var(--green) 0 ${closedPercent}%, var(--orange) ${closedPercent}% 100%)`
+    ? `conic-gradient(var(--color-metric-green) 0 ${closedPercent}%, var(--color-graphite-mid) ${closedPercent}% 100%)`
     : undefined;
 
   return (

@@ -68,7 +68,7 @@ export default function CommitChart({ activity }) {
                 y={y}
                 width={barWidth}
                 height={barHeight}
-                rx="3"
+                rx="1"
               >
                 <title>{`${shortDate(day.date)}: ${day.count} ${day.count === 1 ? 'commit' : 'commits'}`}</title>
               </rect>

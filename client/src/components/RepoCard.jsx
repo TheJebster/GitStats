@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { formatNumber, languageColor } from '../format.js';
+import { formatNumber } from '../format.js';
 import { StarIcon, ForkIcon, ArrowRightIcon } from './Icons.jsx';
 
 export default function RepoCard({ repo }) {
@@ -25,7 +25,7 @@ export default function RepoCard({ repo }) {
       <div className="repo-meta">
         {repo.language && (
           <span className="meta-item">
-            <span className="lang-dot" style={{ background: languageColor(repo.language) }} />
+            <span className="lang-dot" />
             {repo.language}
           </span>
         )}

@@ -5,7 +5,6 @@ import SearchBar from '../components/SearchBar.jsx';
 import RepoCard from '../components/RepoCard.jsx';
 import ErrorState from '../components/ErrorState.jsx';
 import { RepoGridSkeleton } from '../components/Skeleton.jsx';
-import { ClockIcon, IssueIcon, PulseIcon } from '../components/Icons.jsx';
 
 const RECENT_KEY = 'gitstats:recent-repos';
 const MAX_RECENT = 5;
@@ -95,9 +94,7 @@ export default function Home() {
           Live open-source health checks
         </p>
 
-        <h1>
-          Is that repository <span className="gradient-text">actually healthy?</span>
-        </h1>
+        <h1>Is that repository actually healthy?</h1>
 
         <p className="hero-copy">
           Search any public GitHub repository. GitStats scores its commit rhythm, issue response
@@ -113,21 +110,21 @@ export default function Home() {
 
       <section className="feature-strip" aria-label="What GitStats measures">
         <article className="feature">
-          <span className="feature-icon"><PulseIcon width={20} height={20} /></span>
+          <span className="feature-index" aria-hidden="true">01</span>
           <div>
             <h2>Health score</h2>
             <p>A weighted 0–100 score from commits, issue speed, and PR merges.</p>
           </div>
         </article>
         <article className="feature">
-          <span className="feature-icon"><ClockIcon width={20} height={20} /></span>
+          <span className="feature-index" aria-hidden="true">02</span>
           <div>
             <h2>30-day activity</h2>
             <p>Daily commit velocity plus active days, so bursts are not mistaken for momentum.</p>
           </div>
         </article>
         <article className="feature">
-          <span className="feature-icon"><IssueIcon width={20} height={20} /></span>
+          <span className="feature-index" aria-hidden="true">03</span>
           <div>
             <h2>Issue balance</h2>
             <p>Open versus closed issues and the median time it takes to close one.</p>

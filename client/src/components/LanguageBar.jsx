@@ -1,4 +1,4 @@
-import { languageColor } from '../format.js';
+import { languageTone } from '../format.js';
 
 export default function LanguageBar({ languages }) {
   const list = languages || [];
@@ -22,21 +22,21 @@ export default function LanguageBar({ languages }) {
             role="img"
             aria-label={`Language breakdown: ${list.map((language) => `${language.name} ${language.percent}%`).join(', ')}`}
           >
-            {list.map((language) => (
+            {list.map((language, index) => (
               <span
                 key={language.name}
                 style={{
                   width: `${language.percent}%`,
-                  background: languageColor(language.name)
+                  background: languageTone(index)
                 }}
               />
             ))}
           </div>
 
           <ul className="language-list">
-            {list.map((language) => (
+            {list.map((language, index) => (
               <li key={language.name}>
-                <span className="lang-dot" style={{ background: languageColor(language.name) }} />
+                <span className="lang-dot" style={{ background: languageTone(index) }} />
                 <span className="language-name">{language.name}</span>
                 <strong>{language.percent}%</strong>
               </li>

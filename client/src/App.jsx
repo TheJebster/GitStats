@@ -4,9 +4,10 @@ import Dashboard from './pages/Dashboard.jsx';
 
 function Logo() {
   return (
-    <svg className="brand-mark" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
-      <rect width="32" height="32" rx="8" fill="#0d1117" stroke="#1e2b38" />
-      <path d="M8 21V11M16 24V8M24 19v-6" stroke="#3fb950" strokeWidth="3.5" strokeLinecap="round" />
+    <svg className="brand-mark" viewBox="0 0 32 32" width="24" height="24" aria-hidden="true">
+      <rect width="32" height="32" rx="4" fill="#101010" stroke="#3d3a39" />
+      <path d="M8 21V11M16 24V8M24 19v-6" stroke="#eeeeee" strokeWidth="3" strokeLinecap="round" />
+      <path d="M24 19v-6" stroke="#ee6018" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 }
