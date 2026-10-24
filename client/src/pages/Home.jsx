@@ -89,11 +89,6 @@ export default function Home() {
   return (
     <div className="home">
       <section className="hero">
-        <p className="eyebrow">
-          <span className="pulse-dot" />
-          Live open-source health checks
-        </p>
-
         <h1>Is that repository actually healthy?</h1>
 
         <p className="hero-copy">

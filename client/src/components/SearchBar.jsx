@@ -11,7 +11,7 @@ export default function SearchBar({ onSearch, recent = [], onRemoveRecent }) {
     const parsed = parseRepoInput(value);
 
     if (!parsed) {
-      setError('Use owner/repository, like facebook/react, or paste a GitHub URL.');
+      setError('Use owner/repository, like TheJebster/GitStats, or paste a GitHub URL.');
       return;
     }
 
@@ -35,7 +35,7 @@ export default function SearchBar({ onSearch, recent = [], onRemoveRecent }) {
             setValue(event.target.value);
             if (error) setError('');
           }}
-          placeholder="facebook/react"
+          placeholder="TheJebster/GitStats"
           aria-label="GitHub repository"
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'search-error' : undefined}
