@@ -1,5 +1,7 @@
 # GitStats
 
+**Live Demo:** <https://gitstats-khaki.vercel.app>
+
 GitStats checks the health of any public GitHub repository. Type `facebook/react` (or paste a GitHub URL) and it fetches live data from the GitHub REST API, calculates a 0–100 health score, and renders it as a small dashboard.
 
 The project is deliberately simple: **React + Vite** on the frontend, **Express** on the backend, plain CSS, and hand-built SVG/CSS charts. No chart library, no database, no TypeScript.
