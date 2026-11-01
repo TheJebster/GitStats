@@ -2,6 +2,7 @@
   "name": "gitstats",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Health scores and activity charts for public GitHub repositories.",
   "workspaces": [
     "client",
@@ -14,6 +15,11 @@
     "build": "npm run build --workspace client",
     "start": "npm run start --workspace server",
     "preview": "npm run build && npm start"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
